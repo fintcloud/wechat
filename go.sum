@@ -4,6 +4,8 @@ github.com/bradfitz/gomemcache v0.0.0-20160117192205-fb1f79c6b65a h1:k5TuEkqEYCR
 github.com/bradfitz/gomemcache v0.0.0-20160117192205-fb1f79c6b65a/go.mod h1:PmM6Mmwb0LSuEubjR8N7PtNe1KxZLtOUHtbeikc5h60=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/fintcloud/wechat v2.0.1+incompatible h1:Gnyr/QzKca6bVQDnt+OTxRDGX1xrxzK12eOBMC1ax64=
+github.com/fintcloud/wechat v2.0.1+incompatible/go.mod h1:6LufNkUMzjxjNc4hc3uiasx2zVGfUB9MU2ZXu9sPsls=
 github.com/gin-gonic/gin v1.1.4 h1:XLaCFbU39SSGRQrEeP7Z7mM3lvRqC4vE5tEaVdLDdSE=
 github.com/gin-gonic/gin v1.1.4/go.mod h1:7cKuhb5qV2ggCFctp2fJQ+ErvciLZrIeoOSOm6mUr7Y=
 github.com/golang/protobuf v0.0.0-20161117033126-8ee79997227b h1:fE/yi9pibxGEc0gSJuEShcsBXE2d5FW3OudsjE9tKzQ=

@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/silenceper/wechat/context"
-	"github.com/silenceper/wechat/util"
+	"github.com/fintcloud/wechat/context"
+	"github.com/fintcloud/wechat/util"
 )
 
 var payGateway = "https://api.mch.weixin.qq.com/pay/unifiedorder"

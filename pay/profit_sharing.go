@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
-	"github.com/silenceper/wechat/util"
+	"github.com/fintcloud/wechat/util"
 	"strings"
 )
 

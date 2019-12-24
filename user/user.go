@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/silenceper/wechat/context"
-	"github.com/silenceper/wechat/util"
+	"github.com/fintcloud/wechat/context"
+	"github.com/fintcloud/wechat/util"
 )
 
 const (

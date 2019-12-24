@@ -26,22 +26,22 @@ type ReceiverType string
 type RelationType string
 
 const (
-	merchantId ReceiverType = "MERCHANT_ID"
-	personalWechatId = "PERSONAL_WECHATID"
-	personalOpenId = "PERSONAL_OPENID"
+	MerchantId ReceiverType = "MERCHANT_ID"
+	PersonalWechatId = "PERSONAL_WECHATID"
+	PersonalOpenId = "PERSONAL_OPENID"
 )
 
 const (
-	serviceProvider RelationType = "SERVICE_PROVIDER"
-	store = "STORE"
-	staff = "STAFF"
-	partner = "PARTNER"
-	headquarter = "HEADQUARTER"
-	brand = "BRAND"
-	distributor = "DISTRIBUTOR"
-	user = "USER"
-	supplier = "SUPPLIER"
-	custom = "CUSTOM"
+	ServiceProvider RelationType = "SERVICE_PROVIDER"
+	Store = "STORE"
+	Staff = "STAFF"
+	Partner = "PARTNER"
+	Headquarter = "HEADQUARTER"
+	Brand = "BRAND"
+	Distributor = "DISTRIBUTOR"
+	User = "USER"
+	Supplier = "SUPPLIER"
+	Custom = "CUSTOM"
 )
 
 type ProfitSharingReceiver struct {

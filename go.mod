@@ -1,11 +1,10 @@
-module github.com/silenceper/wechat
+module github.com/fintcloud/wechat
 
 go 1.13
 
 require (
 	github.com/astaxie/beego v1.7.1
 	github.com/bradfitz/gomemcache v0.0.0-20160117192205-fb1f79c6b65a
-	github.com/fintcloud/wechat v2.0.1+incompatible
 	github.com/gin-gonic/gin v1.1.4
 	github.com/golang/protobuf v0.0.0-20161117033126-8ee79997227b // indirect
 	github.com/gomodule/redigo v2.0.1-0.20180627144507-2cd21d9966bf+incompatible

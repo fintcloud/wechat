@@ -9,6 +9,7 @@ import (
 	"errors"
 	"github.com/fintcloud/wechat/util"
 	"strings"
+	"time"
 )
 
 const (
@@ -111,7 +112,41 @@ type ProfitSharingResponse struct {
 	Sign          string   `xml:"sign"`
 }
 
+type NotifyProfitSharing struct {
+	Id           string `json:"id"`
+	CreateTime   string `json:"create_time"`
+	EventType    string `json:"event_type"`
+	Summary      string `json:"summary"`
+	ResourceType string `json:"resource_type"`
+	Resource     struct{
+		Algorithm      string `json:"algorithm"`
+		OriginalType   string `json:"original_type"`
+		CipherText     string `json:"ciphertext"`
+		AssociatedData string `json:"associated_data"`
+		Nonce          string `json:"nonce"`
+	}`json:"resource"`
+}
 
+type ProfitSharingResult struct {
+	Mchid         string `json:"mchid"`
+	SpMchid       string `json:"sp_mchid"`
+	SubMchid      string `json:"sub_mchid"`
+	TransactionID string `json:"transaction_id"`
+	OrderID       string `json:"order_id"`
+	OutOrderNo    string `json:"out_order_no"`
+	Receiver      struct {
+		Type        string `json:"type"`
+		Account     string `json:"account"`
+		Amount      int    `json:"amount"`
+		Description string `json:"description"`
+	} `json:"receiver"`
+	SuccessTime time.Time `json:"success_time"`
+}
+
+type NotifyProfitSharingResponse struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
+}
 
 func (pcf *Pay) AddProfitSharingReveiver(receiver *ProfitSharingReceiver) (resAddReceiver *ProfitSharingAddReceiverResponse, err error) {
 	nonceStr := util.RandomStr(32)

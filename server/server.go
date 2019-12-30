@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"runtime/debug"
 	"strconv"
+	"time"
 
 	"github.com/fintcloud/wechat/context"
 	"github.com/fintcloud/wechat/message"
@@ -109,7 +110,7 @@ func (srv *Server) handleRequest() (reply *message.Reply, err error) {
 	if srv.Cache.IsExist(messageKey) {
 		return
 	}else {
-		srv.Cache.Set(messageKey, mixMessage, 60)
+		srv.Cache.Set(messageKey, mixMessage, 60 * time.Second)
 	}
 
 	srv.requestMsg = mixMessage

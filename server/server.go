@@ -104,6 +104,14 @@ func (srv *Server) handleRequest() (reply *message.Reply, err error) {
 	if !success {
 		err = errors.New("消息类型转换失败")
 	}
+
+	messageKey := string(mixMessage.FromUserName) + strconv.FormatInt(mixMessage.CreateTime, 10) + string(mixMessage.MsgType) + string(mixMessage.Event) + mixMessage.EventKey
+	if srv.Cache.IsExist(messageKey) {
+		return
+	}else {
+		srv.Cache.Set(messageKey, mixMessage, 60)
+	}
+
 	srv.requestMsg = mixMessage
 	reply = srv.messageHandler(mixMessage)
 	return

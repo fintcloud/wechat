@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"encoding/xml"
 	"errors"
+	"fmt"
 	"hash"
 	"sort"
 	"strconv"
@@ -276,6 +277,7 @@ func orderParam(source interface{}, bizKey string) (returnStr string) {
 		}
 		buf.WriteString(bizKey)
 		returnStr = buf.String()
+		fmt.Println(returnStr)
 	}
 	return
 }

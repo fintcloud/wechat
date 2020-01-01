@@ -162,9 +162,9 @@ func (pcf *Pay) AddProfitSharingReveiver(receiver *ProfitSharingReceiver) (resAd
 	params["receiver"] = string(receiverJson)
 
 	str := orderParam(params, pcf.AppSecret)
-	strMd5 := util.MD5Sum(str)
+	//strMd5 := util.MD5Sum(str)
 	h := hmac.New(sha256.New, []byte(pcf.PayKey))
-	h.Write([]byte(strMd5))
+	h.Write([]byte(str))
 	// 签名
 	sign := strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
 

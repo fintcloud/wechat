@@ -20,6 +20,7 @@ import (
 )
 
 var payGateway = "https://api.mch.weixin.qq.com/pay/unifiedorder"
+const payToPersonal = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"
 
 // Pay struct extends context
 type Pay struct {
@@ -40,6 +41,18 @@ type Params struct {
 	Attach     string
 	GoodsTag   string
 	NotifyURL  string
+}
+
+// PayToPersonalParams 企业向个人付款传入参数
+type PayToPersonalParams struct {
+	DeviceInfo	   string   `xml:"device_info"`
+	PartnerTradeNo string   `xml:"partner_trade_no"`
+	Openid         string   `xml:"openid"`
+	CheckName      string   `xml:"check_name"`
+	ReUserName     string   `xml:"re_user_name"`
+	Amount         string   `xml:"amount"`
+	Desc           string   `xml:"desc"`
+	SpbillCreateIp string   `xml:"spbill_create_ip"`
 }
 
 // Config 是传出用于 js sdk 用的参数
@@ -68,6 +81,23 @@ type PreOrder struct {
 	ErrCodeDes string `xml:"err_code_des,omitempty"`
 }
 
+// PayToPersonalResponse 企业向个人付款接口返回
+type PayToPersonalResponse struct {
+	ReturnCode     string   `xml:"return_code"`
+	ReturnMsg      string   `xml:"return_msg"`
+	ErrCode    	   string   `xml:"err_code"`
+	ErrCodeDes     string   `xml:"err_code_des"`
+	MchAppid       string   `xml:"mch_appid"`
+	Mchid          string   `xml:"mchid"`
+	DeviceInfo     string   `xml:"device_info"`
+	NonceStr       string   `xml:"nonce_str"`
+	ResultCode     string   `xml:"result_code"`
+	PartnerTradeNo string   `xml:"partner_trade_no"`
+	PaymentNo      string   `xml:"payment_no"`
+	PaymentTime    string   `xml:"payment_time"`
+}
+
+
 // payRequest 接口请求参数
 type payRequest struct {
 	AppID          string `xml:"appid"`
@@ -94,10 +124,80 @@ type payRequest struct {
 	SceneInfo      string `xml:"scene_info,omitempty"`  // 场景信息
 }
 
+// PayToPersonalRequest 企业向个人付款请求参数
+type PayToPersonalRequest struct {
+	MchAppid       string   `xml:"mch_appid"`
+	Mchid          string   `xml:"mchid"`
+	DeviceInfo	   string   `xml:"device_info"`
+	NonceStr       string   `xml:"nonce_str"`
+	PartnerTradeNo string   `xml:"partner_trade_no"`
+	Openid         string   `xml:"openid"`
+	CheckName      string   `xml:"check_name"`
+	ReUserName     string   `xml:"re_user_name"`
+	Amount         string   `xml:"amount"`
+	Desc           string   `xml:"desc"`
+	SpbillCreateIp string   `xml:"spbill_create_ip"`
+	Sign           string   `xml:"sign"`
+}
+
 // NewPay return an instance of Pay package
 func NewPay(ctx *context.Context) *Pay {
 	pay := Pay{Context: ctx}
 	return &pay
+}
+
+func (pcf *Pay) PayToPersonal(p * PayToPersonalParams) (res PayToPersonalResponse, err error) {
+	nonceStr := util.RandomStr(32)
+	// 签名类型
+	param := make(map[string]interface{})
+	param["mch_appid"] = pcf.AppID
+	param["mchid"] = pcf.PayMchID
+	param["device_info"] = p.DeviceInfo
+	param["nonce_str"] = nonceStr
+	param["partner_trade_no"] = p.PartnerTradeNo
+	param["spbill_create_ip"] = p.SpbillCreateIp
+	param["openid"] = p.Openid
+	param["check_name"] = p.CheckName
+	param["re_user_name"] = p.ReUserName
+	param["amount"] = p.Amount
+	param["desc"] = p.Desc
+
+	bizKey := "&key=" + pcf.PayKey
+	str := orderParam(param, bizKey)
+	sign := util.MD5Sum(str)
+	request := PayToPersonalRequest{
+		MchAppid:	pcf.AppID,
+		Mchid:		pcf.PayMchID,
+		DeviceInfo:	p.DeviceInfo,
+		NonceStr:	nonceStr,
+		PartnerTradeNo:	p.PartnerTradeNo,
+		Openid:		p.Openid,
+		CheckName:	p.CheckName,
+		ReUserName:	p.ReUserName,
+		Amount:		p.Amount,
+		Desc:		p.Desc,
+		SpbillCreateIp:	p.SpbillCreateIp,
+		Sign:		sign,
+	}
+	rawRet, err := util.PostXML(payToPersonal, request)
+	if err != nil {
+		return
+	}
+	err = xml.Unmarshal(rawRet, &res)
+	if err != nil {
+		return
+	}
+	if res.ReturnCode == "SUCCESS" {
+		// pay success
+		if res.ResultCode == "SUCCESS" {
+			err = nil
+			return
+		}
+		err = errors.New(res.ErrCode + res.ErrCodeDes)
+		return
+	}
+	err = errors.New("[msg : xmlUnmarshalError] [rawReturn : " + string(rawRet) + "] [params : " + str + "] [sign : " + sign + "]")
+	return
 }
 
 // BridgeConfig get js bridge config

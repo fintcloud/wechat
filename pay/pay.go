@@ -53,6 +53,7 @@ type PayToPersonalParams struct {
 	Amount         string   `xml:"amount"`
 	Desc           string   `xml:"desc"`
 	SpbillCreateIp string   `xml:"spbill_create_ip"`
+	RootCa         string //ca证书
 }
 
 // Config 是传出用于 js sdk 用的参数
@@ -179,7 +180,7 @@ func (pcf *Pay) PayToPersonal(p * PayToPersonalParams) (res PayToPersonalRespons
 		SpbillCreateIp:	p.SpbillCreateIp,
 		Sign:		sign,
 	}
-	rawRet, err := util.PostXML(payToPersonal, request)
+	rawRet, err := util.PostXMLWithTLS(payToPersonal, request, p.RootCa, pcf.PayMchID)
 	if err != nil {
 		return
 	}

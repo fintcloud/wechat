@@ -9,6 +9,7 @@ import (
 	"runtime/debug"
 	"strconv"
 	"time"
+	icontext "context"
 
 	"github.com/fintcloud/wechat/context"
 	"github.com/fintcloud/wechat/message"
@@ -18,12 +19,13 @@ import (
 //Server struct
 type Server struct {
 	*context.Context
+	icontext *icontext.Context
 
 	debug bool
 
 	openID string
 
-	messageHandler func(message.MixMessage) *message.Reply
+	messageHandler func(*icontext.Context, message.MixMessage) *message.Reply
 
 	requestRawXMLMsg  []byte
 	requestMsg        message.MixMessage
@@ -37,9 +39,10 @@ type Server struct {
 }
 
 //NewServer init
-func NewServer(context *context.Context) *Server {
+func NewServer(context *context.Context, icontexts ...*icontext.Context) *Server {
 	srv := new(Server)
 	srv.Context = context
+	srv.icontext = icontexts[0]
 	return srv
 }
 
@@ -114,7 +117,7 @@ func (srv *Server) handleRequest() (reply *message.Reply, err error) {
 	}
 
 	srv.requestMsg = mixMessage
-	reply = srv.messageHandler(mixMessage)
+	reply = srv.messageHandler(srv.icontext, mixMessage)
 	return
 }
 

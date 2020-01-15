@@ -19,13 +19,13 @@ import (
 //Server struct
 type Server struct {
 	*context.Context
-	icontext *icontext.Context
+	icontext icontext.Context
 
 	debug bool
 
 	openID string
 
-	messageHandler func(*icontext.Context, message.MixMessage) *message.Reply
+	messageHandler func(icontext.Context, message.MixMessage) *message.Reply
 
 	requestRawXMLMsg  []byte
 	requestMsg        message.MixMessage
@@ -39,7 +39,7 @@ type Server struct {
 }
 
 //NewServer init
-func NewServer(context *context.Context, icontexts ...*icontext.Context) *Server {
+func NewServer(context *context.Context, icontexts ...icontext.Context) *Server {
 	srv := new(Server)
 	srv.Context = context
 	srv.icontext = icontexts[0]
@@ -174,7 +174,7 @@ func (srv *Server) parseRequestMessage(rawXMLMsgBytes []byte) (msg message.MixMe
 }
 
 //SetMessageHandler 设置用户自定义的回调方法
-func (srv *Server) SetMessageHandler(handler func(*icontext.Context, message.MixMessage) *message.Reply) {
+func (srv *Server) SetMessageHandler(handler func(icontext.Context, message.MixMessage) *message.Reply) {
 	srv.messageHandler = handler
 }
 

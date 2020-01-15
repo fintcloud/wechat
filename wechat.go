@@ -1,9 +1,9 @@
 package wechat
 
 import (
+	icontext "context"
 	"net/http"
 	"sync"
-	icontext "context"
 
 	"github.com/fintcloud/wechat/cache"
 	"github.com/fintcloud/wechat/context"

@@ -1,6 +1,7 @@
 package server
 
 import (
+	icontext "context"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -9,7 +10,6 @@ import (
 	"runtime/debug"
 	"strconv"
 	"time"
-	icontext "context"
 
 	"github.com/fintcloud/wechat/context"
 	"github.com/fintcloud/wechat/message"

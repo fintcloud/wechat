@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"time"
-
 	"github.com/fintcloud/wechat/context"
 	"github.com/fintcloud/wechat/util"
 )
@@ -55,7 +53,7 @@ type resMaterialList struct {
 	Item       []struct {
 		MediaID    string `json:"media_id"`
 		Name       string `json:"name"`
-		UpdateTime time.Time `json:"update_time"`
+		UpdateTime int64 `json:"update_time"`
 		URL        string `json:"url"`
 	} `json:"item"`
 }

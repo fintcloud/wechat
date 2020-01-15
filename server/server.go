@@ -174,7 +174,7 @@ func (srv *Server) parseRequestMessage(rawXMLMsgBytes []byte) (msg message.MixMe
 }
 
 //SetMessageHandler 设置用户自定义的回调方法
-func (srv *Server) SetMessageHandler(handler func(message.MixMessage) *message.Reply) {
+func (srv *Server) SetMessageHandler(handler func(*icontext.Context, message.MixMessage) *message.Reply) {
 	srv.messageHandler = handler
 }
 

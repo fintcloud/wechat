@@ -14,6 +14,7 @@ const (
 	addMaterialURL = "https://api.weixin.qq.com/cgi-bin/material/add_material"
 	delMaterialURL = "https://api.weixin.qq.com/cgi-bin/material/del_material"
 	getMaterialURL = "https://api.weixin.qq.com/cgi-bin/material/get_material"
+	batchgetMaterialURL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material"
 )
 
 //Material 素材管理
@@ -39,6 +40,47 @@ type Article struct {
 	ContentSourceURL string `json:"content_source_url"`
 	URL              string `json:"url"`
 	DownURL          string `json:"down_url"`
+}
+
+type reqMaterialList struct {
+	Type   string `json:"type"`
+	Offset int    `json:"offset"`
+	Count  int    `json:"count"`
+}
+
+type resMaterialList struct {
+	TotalCount int `json:"total_count"`
+	ItemCount  int `json:"item_count"`
+	Item       []struct {
+		MediaID    string `json:"media_id"`
+		Name       string `json:"name"`
+		UpdateTime string `json:"update_time"`
+		URL        string `json:"url"`
+	} `json:"item"`
+}
+
+
+// BatchGetMaterial 获取素材列表
+func (material *Material) BatchGetMaterial(materialType string, offset int, count int) (*resMaterialList, error){
+	accessToken, err := material.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+	uri := fmt.Sprintf("%s?access_token=%s", batchgetMaterialURL, accessToken)
+
+	var reqML = new(reqMaterialList)
+	reqML.Type = materialType
+	reqML.Count = count
+	reqML.Offset = offset
+	responseBytes, err := util.PostJSON(uri, reqML)
+
+	var res = new(resMaterialList)
+	err = json.Unmarshal(responseBytes, &res)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 // GetNews 获取/下载永久素材

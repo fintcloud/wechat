@@ -3,6 +3,7 @@ package wechat
 import (
 	"net/http"
 	"sync"
+	icontext "context"
 
 	"github.com/fintcloud/wechat/cache"
 	"github.com/fintcloud/wechat/context"
@@ -58,10 +59,10 @@ func copyConfigToContext(cfg *Config, context *context.Context) {
 }
 
 // GetServer 消息管理
-func (wc *Wechat) GetServer(req *http.Request, writer http.ResponseWriter) *server.Server {
+func (wc *Wechat) GetServer(ctx *icontext.Context, req *http.Request, writer http.ResponseWriter) *server.Server {
 	wc.Context.Request = req
 	wc.Context.Writer = writer
-	return server.NewServer(wc.Context)
+	return server.NewServer(wc.Context, ctx)
 }
 
 //GetAccessToken 获取access_token

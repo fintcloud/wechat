@@ -219,11 +219,14 @@ type ResGetPayToPersonalResult struct {
 	ReturnCode     string   `xml:"return_code"`
 	ReturnMsg      string   `xml:"return_msg"`
 	ResultCode     string   `xml:"result_code"`
+	ErrCode 	   string   `xml:"err_code"`
+	ErrCodeDes	   string   `xml:"err_code_des"`
 	MchID          string   `xml:"mch_id"`
 	Appid          string   `xml:"appid"`
 	DetailID       string   `xml:"detail_id"`
 	PartnerTradeNo string   `xml:"partner_trade_no"`
 	Status         string   `xml:"status"`
+	Reason		   string   `xml:"reason"`
 	PaymentAmount  string   `xml:"payment_amount"`
 	Openid         string   `xml:"openid"`
 	TransferTime   string   `xml:"transfer_time"`

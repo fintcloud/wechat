@@ -192,13 +192,7 @@ func (pcf *Pay) PayToPersonal(p * PayToPersonalParams) (res PayToPersonalRespons
 		return
 	}
 	if res.ReturnCode == "SUCCESS" {
-		// pay success
-		if res.ResultCode == "SUCCESS" {
-			err = nil
-			return
-		}
-		err = errors.New(res.ErrCode + res.ErrCodeDes)
-		return
+		return 
 	}
 	err = errors.New("[msg : xmlUnmarshalError] [rawReturn : " + string(rawRet) + "] [params : " + str + "] [sign : " + sign + "]")
 	return
@@ -262,12 +256,6 @@ func (pcf *Pay) GetPayToPersonalResult(orderNo string, rootCa string) (res ResGe
 		return
 	}
 	if res.ReturnCode == "SUCCESS" {
-		// pay success
-		if res.ResultCode == "SUCCESS" {
-			err = nil
-			return
-		}
-		err = errors.New(res.ErrCode + res.ErrCodeDes)
 		return
 	}
 	err = errors.New("[msg : xmlUnmarshalError] [rawReturn : " + string(rawRet) + "] [params : " + str + "] [sign : " + sign + "]")

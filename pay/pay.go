@@ -19,8 +19,11 @@ import (
 	"github.com/fintcloud/wechat/util"
 )
 
-var payGateway = "https://api.mch.weixin.qq.com/pay/unifiedorder"
-const payToPersonal = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"
+const (
+	payGateway = "https://api.mch.weixin.qq.com/pay/unifiedorder"
+	payToPersonal = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"
+	getPayToPersonalResult = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo"
+)
 
 // Pay struct extends context
 type Pay struct {
@@ -200,6 +203,75 @@ func (pcf *Pay) PayToPersonal(p * PayToPersonalParams) (res PayToPersonalRespons
 	err = errors.New("[msg : xmlUnmarshalError] [rawReturn : " + string(rawRet) + "] [params : " + str + "] [sign : " + sign + "]")
 	return
 }
+
+type ReqGetPayToPersonalResult struct {
+	XMLName        xml.Name `xml:"xml"`
+	Sign           string   `xml:"sign"`
+	PartnerTradeNo string   `xml:"partner_trade_no"`
+	MchID          string   `xml:"mch_id"`
+	Appid          string   `xml:"appid"`
+	NonceStr       string   `xml:"nonce_str"`
+}
+
+
+type ResGetPayToPersonalResult struct {
+	XMLName        xml.Name `xml:"xml"`
+	ReturnCode     string   `xml:"return_code"`
+	ReturnMsg      string   `xml:"return_msg"`
+	ResultCode     string   `xml:"result_code"`
+	MchID          string   `xml:"mch_id"`
+	Appid          string   `xml:"appid"`
+	DetailID       string   `xml:"detail_id"`
+	PartnerTradeNo string   `xml:"partner_trade_no"`
+	Status         string   `xml:"status"`
+	PaymentAmount  string   `xml:"payment_amount"`
+	Openid         string   `xml:"openid"`
+	TransferTime   string   `xml:"transfer_time"`
+	TransferName   string   `xml:"transfer_name"`
+	Desc           string   `xml:"desc"`
+}
+
+func (pcf *Pay) GetPayToPersonalResult(orderNo string, rootCa string) (res ResGetPayToPersonalResult, err error) {
+	nonceStr := util.RandomStr(32)
+	// 签名类型
+	param := make(map[string]interface{})
+	param["appid"] = pcf.AppID
+	param["mch_id"] = pcf.PayMchID
+	param["partner_trade_no"] = orderNo
+	param["nonce_str"] = nonceStr
+
+	bizKey := "&key=" + pcf.PayKey
+	str := orderParam(param, bizKey)
+	sign := util.MD5Sum(str)
+	request := ReqGetPayToPersonalResult{
+		PartnerTradeNo:		orderNo,
+		MchID:				pcf.PayMchID,
+		Appid:				pcf.AppID,
+		NonceStr:			nonceStr,
+		Sign: 				sign,
+	}
+	rawRet, err := util.PostXMLWithTLS(getPayToPersonalResult, request, rootCa, pcf.PayMchID)
+	if err != nil {
+		return
+	}
+	err = xml.Unmarshal(rawRet, &res)
+	if err != nil {
+		return
+	}
+	if res.ReturnCode == "SUCCESS" {
+		// pay success
+		if res.ResultCode == "SUCCESS" {
+			err = nil
+			return
+		}
+		err = errors.New(res.ErrCode + res.ErrCodeDes)
+		return
+	}
+	err = errors.New("[msg : xmlUnmarshalError] [rawReturn : " + string(rawRet) + "] [params : " + str + "] [sign : " + sign + "]")
+	return
+}
+
+
 
 // BridgeConfig get js bridge config
 func (pcf *Pay) BridgeConfig(p *Params) (cfg Config, err error) {

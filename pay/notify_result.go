@@ -92,14 +92,19 @@ func (pcf *Pay) VerifySign(notifyRes NotifyResult) bool {
 	resMap["coupon_fee_0"] = notifyRes.CouponFee0
 	resMap["coupon_id_1"] = notifyRes.CouponID1
 	resMap["coupon_fee_1"] = notifyRes.CouponFee1
+	resMap["coupon_type_1"] = notifyRes.CouponType1
 	resMap["coupon_id_2"] = notifyRes.CouponID2
 	resMap["coupon_fee_2"] = notifyRes.CouponFee2
+	resMap["coupon_type_2"] = notifyRes.CouponType2
 	resMap["coupon_id_3"] = notifyRes.CouponID3
 	resMap["coupon_fee_3"] = notifyRes.CouponFee3
+	resMap["coupon_type_3"] = notifyRes.CouponType3
 	resMap["coupon_id_4"] = notifyRes.CouponID4
 	resMap["coupon_fee_4"] = notifyRes.CouponFee4
+	resMap["coupon_type_4"] = notifyRes.CouponType4
 	resMap["coupon_id_5"] = notifyRes.CouponID5
 	resMap["coupon_fee_5"] = notifyRes.CouponFee5
+	resMap["coupon_type_5"] = notifyRes.CouponType5
 	// 支付key
 	sortedKeys := make([]string, 0, len(resMap))
 	for k := range resMap {

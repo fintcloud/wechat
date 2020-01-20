@@ -90,6 +90,7 @@ func (pcf *Pay) VerifySign(notifyRes NotifyResult) bool {
 	resMap["coupon_id"] = notifyRes.CouponID
 	resMap["coupon_id_0"] = notifyRes.CouponID0
 	resMap["coupon_fee_0"] = notifyRes.CouponFee0
+	resMap["coupon_type_0"] = notifyRes.CouponType0
 	resMap["coupon_id_1"] = notifyRes.CouponID1
 	resMap["coupon_fee_1"] = notifyRes.CouponFee1
 	resMap["coupon_type_1"] = notifyRes.CouponType1

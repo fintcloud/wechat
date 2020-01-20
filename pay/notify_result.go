@@ -115,7 +115,7 @@ func (pcf *Pay) VerifySign(notifyRes NotifyResult) bool {
 	var signStrings string
 	for _, k := range sortedKeys {
 		value := fmt.Sprintf("%v", resMap[k])
-		if value != "" {
+		if value != "" && value != "0"{
 			signStrings = signStrings + k + "=" + value + "&"
 		}
 	}

@@ -17,14 +17,19 @@ type Base struct {
 // NotifyResult 下单回调
 type NotifyResult struct {
 	Base
+	SignType	  string `xml:"sign_type"`
+	DeviceInfo    string `xml:"device_info"`
 	ReturnCode    string `xml:"return_code"`
 	ReturnMsg     string `xml:"return_msg"`
 	ResultCode    string `xml:"result_code"`
+	ErrCode 	  string `xml:"err_code"`
+	ErrCodeDes	  string `xml:"err_code_des"`
 	OpenID        string `xml:"openid"`
 	IsSubscribe   string `xml:"is_subscribe"`
 	TradeType     string `xml:"trade_type"`
 	BankType      string `xml:"bank_type"`
 	TotalFee      int    `xml:"total_fee"`
+	SettlementTotalFee	int	`xml:"settlement_total_fee"`
 	FeeType       string `xml:"fee_type"`
 	CashFee       int    `xml:"cash_fee"`
 	CashFeeType   string `xml:"cash_fee_type"`
@@ -106,6 +111,11 @@ func (pcf *Pay) VerifySign(notifyRes NotifyResult) bool {
 	resMap["coupon_id_5"] = notifyRes.CouponID5
 	resMap["coupon_fee_5"] = notifyRes.CouponFee5
 	resMap["coupon_type_5"] = notifyRes.CouponType5
+	resMap["device_info"] = notifyRes.DeviceInfo
+	resMap["sign_type"] = notifyRes.SignType
+	resMap["err_code"] = notifyRes.ErrCode
+	resMap["err_code_des"] = notifyRes.ErrCodeDes
+	resMap["settlement_total_fee"] = notifyRes.SettlementTotalFee
 	// 支付key
 	sortedKeys := make([]string, 0, len(resMap))
 	for k := range resMap {

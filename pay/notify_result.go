@@ -32,7 +32,6 @@ type NotifyResult struct {
 	OutTradeNo    string `xml:"out_trade_no"`
 	Attach        string `xml:"attach"`
 	TimeEnd       string `xml:"time_end"`
-	Openid        string   `xml:"openid"`
 	CouponFee     int	   `xml:"coupon_fee"`
 	CouponCount   int 	   `xml:"coupon_count"`
 	CouponType    string   `xml:"coupon_type"`

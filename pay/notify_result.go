@@ -38,16 +38,22 @@ type NotifyResult struct {
 	CouponID      string   `xml:"coupon_id"`
 	CouponID0     string `xml:"coupon_id_0"`
 	CouponFee0    int64  `xml:"coupon_fee_0"`
+	CouponType0    string   `xml:"coupon_type_0"`
 	CouponID1     string `xml:"coupon_id_1"`
 	CouponFee1    int64  `xml:"coupon_fee_1"`
+	CouponType1    string   `xml:"coupon_type_1"`
 	CouponID2     string `xml:"coupon_id_2"`
 	CouponFee2    int64  `xml:"coupon_fee_2"`
+	CouponType2    string   `xml:"coupon_type_2"`
 	CouponID3     string `xml:"coupon_id_3"`
 	CouponFee3    int64  `xml:"coupon_fee_3"`
+	CouponType3    string   `xml:"coupon_type_3"`
 	CouponID4     string `xml:"coupon_id_4"`
 	CouponFee4    int64  `xml:"coupon_fee_4"`
+	CouponType4    string   `xml:"coupon_type_4"`
 	CouponID5     string `xml:"coupon_id_5"`
 	CouponFee5    int64  `xml:"coupon_fee_5"`
+	CouponType5    string   `xml:"coupon_type_5"`
 }
 
 // NotifyResp 消息通知返回

@@ -6,6 +6,8 @@ import (
 	"sort"
 )
 
+type CDATA string
+
 // Base 公用参数
 type Base struct {
 	AppID    string `xml:"appid"`
@@ -63,8 +65,8 @@ type NotifyResult struct {
 
 // NotifyResp 消息通知返回
 type NotifyResp struct {
-	ReturnCode string `xml:"return_code"`
-	ReturnMsg  string `xml:"return_msg"`
+	ReturnCode CDATA `xml:"return_code"`
+	ReturnMsg  CDATA `xml:"return_msg"`
 }
 
 // VerifySign 验签
